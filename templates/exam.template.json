@@ -1,0 +1,34 @@
+{
+  "id": "ntu-114-ds",
+  "school": "ntu",
+  "year": 114,
+  "subject": "ds",
+  "dept": "資訊管理學系碩士班 甲組",
+  "title": "資料結構",
+  "source": {
+    "type": "official",
+    "url": "https://example.com/原始考卷連結",
+    "note": "來源說明；若有含圖題未收錄請寫在這裡"
+  },
+  "partial": false,
+  "questions": [
+    {
+      "no": "1",
+      "type": "calc",
+      "points": 10,
+      "tags": ["主題標籤"],
+      "question": "題目原文（Markdown，換行用 \\n）",
+      "answer": "最終答案（一句話）",
+      "explanation": "**假設**：（若有多種慣例）\n\n**觀念** → **步驟** → **結果**"
+    },
+    {
+      "no": "2",
+      "type": "mcq",
+      "tags": ["主題標籤"],
+      "question": "選擇題題幹",
+      "options": ["(A) ...", "(B) ...", "(C) ...", "(D) ..."],
+      "answer": "(A)",
+      "explanation": "為什麼選 A，以及其他選項錯在哪裡"
+    }
+  ]
+}

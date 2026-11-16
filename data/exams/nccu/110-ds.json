@@ -1,0 +1,67 @@
+{
+  "id": "nccu-110-ds",
+  "school": "nccu",
+  "year": 110,
+  "subject": "ds",
+  "dept": "資訊管理學系 科技組",
+  "title": "資料結構",
+  "source": {
+    "type": "official",
+    "url": "https://yamol.tw/exam.php?id=102881",
+    "note": "題目文字取自阿摩線上測驗收錄之 110 學年度政大資管科技組資料結構（試卷 #102881）。第 I 大題的 keys 未收錄於來源，故第 I 大題與依賴它的計算暫不收錄；第 II、III 大題可獨立作答。"
+  },
+  "partial": true,
+  "questions": [
+    {
+      "no": "II.1",
+      "type": "essay",
+      "points": 10,
+      "tags": [
+        "排序",
+        "Heap Sort",
+        "Heap"
+      ],
+      "question": "Ⅱ (25%) To sort the above keys in I, describe a sorting algorithm\n\n1. (10%) that uses the heap constructed in I.1\n\n> 題目背景：I.1 要求把 keys 逐一插入 **min heap**（heap order：每個節點 v 都滿足 v.key > v.parent.key）。",
+      "answer": "反覆執行 deleteMin：取出根（最小值）輸出，把最後一個葉節點移到根再向下調整（sift-down），重複 n 次即得遞增序列，時間 $O(n\\log n)$。",
+      "explanation": "**演算法**（I.1 已建好 min heap `H`，大小 n）\n```text\nHeapSortAscending(H, n):\n    for i ← 1 to n:\n        output[i] ← H[1]          // 根是目前最小值\n        H[1] ← H[n - i + 1]       // 最後一個元素移到根\n        size ← size - 1\n        SiftDown(H, 1)            // 和較小的子節點交換，直到滿足 heap order\n    return output\n```\n\n**正確性**：min heap 的根永遠是剩餘元素中的最小值，所以依序取出就是遞增排列。\n\n**複雜度**：每次 SiftDown 最多走樹高 $\\lfloor\\log n\\rfloor$ 層，共 n 次，總計 $O(n\\log n)$。若想原地排序，可以把取出的根和陣列尾端交換，用 min heap 會得到遞減序列，反轉即可。"
+    },
+    {
+      "no": "II.2",
+      "type": "essay",
+      "points": 15,
+      "tags": [
+        "排序",
+        "AVL Tree",
+        "樹的走訪"
+      ],
+      "question": "Ⅱ (25%) To sort the above keys in I, describe a sorting algorithm\n\n2. (15%) that uses the AVL tree constructed in I.3",
+      "answer": "對 AVL tree 做中序走訪（inorder traversal）即得遞增序列；建樹 $O(n\\log n)$、走訪 $O(n)$。",
+      "explanation": "**關鍵性質**：AVL tree 是 binary search tree，任一節點滿足「左子樹 < 節點 < 右子樹」，所以**中序走訪（左 → 根 → 右）輸出的就是遞增序列**。\n\n```c\nvoid inorder(Node *v) {\n    if (v == NULL) return;\n    inorder(v->left);\n    printf(\"%d \", v->key);   // 依序輸出\n    inorder(v->right);\n}\n```\n\n**複雜度**\n- I.3 逐一插入 n 個 key：AVL 高度維持 $O(\\log n)$，每次插入含旋轉 $O(\\log n)$，共 $O(n\\log n)$。\n- 中序走訪每個節點拜訪一次：$O(n)$。\n- 總計 $O(n\\log n)$，額外空間 $O(n)$（樹節點）+ $O(\\log n)$（遞迴深度）。\n\n**為什麼要用 AVL 而不是一般 BST**：一般 BST 遇到已排序的輸入會退化成鏈狀，建樹變 $O(n^2)$；AVL 的平衡保證最差也是 $O(n\\log n)$。"
+    },
+    {
+      "no": "III.1",
+      "type": "essay",
+      "points": 15,
+      "tags": [
+        "Expression Tree",
+        "遞迴"
+      ],
+      "question": "Ⅲ (30%) Describe an algorithm to evaluate the expression `13 + 5 -6*3＜4 -6+9/3`\n\n1. (15%) that uses recursive call on the binary tree representation of the expression",
+      "answer": "先依運算子優先順序建出 expression tree（葉節點是數字、內部節點是運算子），再用後序遞迴：eval(node) = eval(left) op eval(right)。",
+      "explanation": "> 來源中的「＜」字元無法確認是哪個運算子（可能是轉錄錯誤），以下以 `13 + 5 - 6 * 3 - 6 + 9 / 3`（略去「＜4」）示範演算法，作答時請依原卷符號替換。\n\n**步驟 1：建 expression tree**\n`*`、`/` 優先於 `+`、`-`，同級運算子由左而右結合，所以最後一個執行的 `+` 是樹根：\n```\n                 +\n               /   \\\n              -     /\n            /   \\  / \\\n           -     6 9  3\n         /   \\\n        +     *\n       / \\   / \\\n      13  5 6   3\n```\n\n**步驟 2：遞迴求值（後序走訪）**\n```c\nint eval(Node *t) {\n    if (t->isLeaf) return t->value;      // 數字\n    int a = eval(t->left);\n    int b = eval(t->right);\n    switch (t->op) {\n        case '+': return a + b;\n        case '-': return a - b;\n        case '*': return a * b;\n        case '/': return a / b;\n    }\n}\n```\n\n**示範結果**：$(13+5) = 18 \\to 18 - 18 = 0 \\to 0 - 6 = -6 \\to -6 + 3 = -3$。\n\n**複雜度**：每個節點拜訪一次，$O(n)$；遞迴深度等於樹高。"
+    },
+    {
+      "no": "III.2",
+      "type": "essay",
+      "points": 15,
+      "tags": [
+        "Stack",
+        "Infix 運算",
+        "運算子優先權"
+      ],
+      "question": "Ⅲ (30%) Describe an algorithm to evaluate the expression `13 + 5 -6*3＜4 -6+9/3`\n\n2. (15%) that uses two stacks for operators and operands (values) respectively",
+      "answer": "Dijkstra 雙堆疊法：數字推入 operand stack；遇到運算子時，若 operator stack 頂端的優先權 ≥ 目前運算子，就先彈出計算，再把目前運算子推入；最後清空 operator stack。",
+      "explanation": "> 同 III.1，以 `13 + 5 - 6 * 3 - 6 + 9 / 3` 示範。\n\n**演算法**\n```text\nfor each token x (由左到右):\n    if x 是數字: push(vals, x)\n    else:   // x 是運算子\n        while ops 非空 且 prec(top(ops)) >= prec(x):\n            apply()              // 彈出一個運算子和兩個數字，算完推回 vals\n        push(ops, x)\nwhile ops 非空: apply()\nreturn top(vals)\n\napply(): op ← pop(ops); b ← pop(vals); a ← pop(vals); push(vals, a op b)\n```\n用 `>=`（而非 `>`）是為了讓同級運算子**左結合**，例如 `18 - 18 - 6` 先算左邊。\n\n**逐步追蹤**\n\n| 讀入 | 動作 | vals | ops |\n|---|---|---|---|\n| 13 | push | 13 | |\n| + | push | 13 | + |\n| 5 | push | 13 5 | + |\n| - | + ≥ -，算 13+5 | 18 | - |\n| 6 | push | 18 6 | - |\n| * | - < *，直接 push | 18 6 | - * |\n| 3 | push | 18 6 3 | - * |\n| - | 算 6*3、再算 18-18 | 0 | - |\n| 6 | push | 0 6 | - |\n| + | 算 0-6 | -6 | + |\n| 9 | push | -6 9 | + |\n| / | + < /，直接 push | -6 9 | + / |\n| 3 | push | -6 9 3 | + / |\n| 結束 | 算 9/3=3、再算 -6+3 | **-3** | |\n\n**複雜度**：每個 token 最多進出堆疊各一次，$O(n)$。"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  { "code": "ntu",   "name": "國立臺灣大學",     "short": "台大", "group": "四大" },
+  { "code": "nthu",  "name": "國立清華大學",     "short": "清大", "group": "四大" },
+  { "code": "nycu",  "name": "國立陽明交通大學", "short": "陽明交大", "group": "四大" },
+  { "code": "ncku",  "name": "國立成功大學",     "short": "成大", "group": "四大" },
+  { "code": "ncu",   "name": "國立中央大學",     "short": "中央", "group": "四中" },
+  { "code": "nchu",  "name": "國立中興大學",     "short": "中興", "group": "四中" },
+  { "code": "nsysu", "name": "國立中山大學",     "short": "中山", "group": "四中" },
+  { "code": "ccu",   "name": "國立中正大學",     "short": "中正", "group": "四中" },
+  { "code": "nccu",  "name": "國立政治大學",     "short": "政大", "group": "其他" },
+  { "code": "ntpu",  "name": "國立臺北大學",     "short": "北大", "group": "其他" },
+  { "code": "ntust", "name": "國立臺灣科技大學", "short": "台科", "group": "其他" },
+  { "code": "ntut",  "name": "國立臺北科技大學", "short": "北科", "group": "其他" }
+]

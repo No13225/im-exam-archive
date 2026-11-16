@@ -1,0 +1,398 @@
+{
+  "id": "ncku-114-ds",
+  "school": "ncku",
+  "year": 114,
+  "subject": "ds",
+  "dept": "資訊管理研究所",
+  "title": "資料結構",
+  "source": {
+    "type": "official",
+    "url": "https://exam.lib.ncku.edu.tw/exam/BC08_114_2.pdf",
+    "note": "成功大學圖書館考古題系統官方掃描檔（編號 172），全卷收錄。圖形題已轉成文字或 ASCII 圖。"
+  },
+  "partial": false,
+  "questions": [
+    {
+      "no": "A-1.1",
+      "type": "mcq",
+      "points": 4,
+      "tags": [
+        "演算法分析",
+        "Master Theorem"
+      ],
+      "question": "If the time complexity of an algorithm is $T(n) = 3T\\left(\\frac{n}{9}\\right) + n^{0.51}$, what is the Big-O complexity?",
+      "options": [
+        "(a) O(log(n²))",
+        "(b) O(log(n/2))",
+        "(c) n log(n)",
+        "(d) O(n^0.51)"
+      ],
+      "answer": "(d)",
+      "explanation": "**Master Theorem**：$a=3,\\ b=9$，$n^{\\log_b a} = n^{\\log_9 3} = n^{0.5}$。\n\n$f(n) = n^{0.51} = \\Omega(n^{0.5+\\varepsilon})$（取 $\\varepsilon = 0.01$），且正則條件 $3\\,(n/9)^{0.51} = \\frac{3}{9^{0.51}} n^{0.51} \\approx 0.98\\,n^{0.51} \\le c\\,n^{0.51}$（$c<1$）成立，屬於 **Case 3**。\n\n因此 $T(n) = \\Theta(n^{0.51})$。\n\n陷阱：0.51 和 0.5 很接近，但只要 $f(n)$ 多項式地大於 $n^{\\log_b a}$，答案就由 $f(n)$ 決定。"
+    },
+    {
+      "no": "A-1.2",
+      "type": "mcq",
+      "points": 4,
+      "tags": [
+        "NP 問題"
+      ],
+      "question": "Which statement is correct regarding NP-Hard and NP-Complete problems?",
+      "options": [
+        "(a) All NP-Hard problems are NP-Complete",
+        "(b) NP-Hard problems are a subset of NP-Complete problems",
+        "(c) All NP-Complete problems are NP-Hard",
+        "(d) NP-Hard problems can only be solved using brute force."
+      ],
+      "answer": "(c)",
+      "explanation": "定義：**NP-Complete = NP ∩ NP-Hard**。\n\n- (c) 正確：NP-Complete 一定是 NP-Hard。\n- (a)(b) 錯：方向反了。NP-Hard 不一定屬於 NP（例如 Halting Problem 是 NP-Hard 但不在 NP）。\n- (d) 錯：NP-Hard 問題可用動態規劃（如 0/1 背包的 pseudo-polynomial 解）、分支界限、近似演算法等，不只有暴力法。"
+    },
+    {
+      "no": "A-1.3",
+      "type": "mcq",
+      "points": 4,
+      "tags": [
+        "外部排序",
+        "Merge Sort"
+      ],
+      "question": "If the size of the main memory is $M$ and the size of the data is $N$, what is the number of passes approximately required for external merge sort?",
+      "options": [
+        "(a) log_M N",
+        "(b) ⌈log_{M−1}(N/M)⌉",
+        "(c) ⌈log_M(N/M)⌉",
+        "(d) log_{M−1} N"
+      ],
+      "answer": "(b)",
+      "explanation": "外部合併排序分兩階段：\n\n1. **產生 runs**：每次讀滿記憶體 $M$ 排好寫回，得到 $\\lceil N/M \\rceil$ 個 sorted runs。\n2. **多路合併**：記憶體有 $M$ 個 buffer，保留 1 個當輸出，其餘 $M-1$ 個當輸入，所以每一趟做 **(M−1)-way merge**，runs 數量每趟除以 $M-1$。\n\n合併趟數 $= \\lceil \\log_{M-1}(N/M) \\rceil$（再加上第一階段的 1 趟）。選項中最符合的是 (b)。"
+    },
+    {
+      "no": "A-1.4",
+      "type": "mcq",
+      "points": 4,
+      "tags": [
+        "Queue",
+        "Stack",
+        "攤銷分析"
+      ],
+      "question": "What is the time complexity of the enqueue and dequeue operations in a queue implemented using two stacks, considering the amortized analysis?",
+      "options": [
+        "(a) O(1) for enqueue and O(n) for dequeue",
+        "(b) O(1) for both operations",
+        "(c) O(n) for both operations",
+        "(d) O(n) for enqueue and O(1) for dequeue"
+      ],
+      "answer": "(b)",
+      "explanation": "做法：`in` stack 負責 enqueue（直接 push）；dequeue 時若 `out` stack 是空的，就把 `in` 全部倒進 `out`，再從 `out` pop。\n\n**攤銷分析**：每個元素一生最多被 push 進 `in` 一次、移到 `out` 一次、從 `out` pop 一次，共 3 次 $O(1)$ 操作。$n$ 次操作總成本 $O(n)$，**平均每次 $O(1)$**。\n\n(a) 是「單次最差情況」的說法，題目指定 amortized，所以選 (b)。"
+    },
+    {
+      "no": "A-1.5",
+      "type": "mcq",
+      "points": 4,
+      "tags": [
+        "雜湊",
+        "Open Addressing"
+      ],
+      "question": "Which of the following is NOT true regarding closed hashing?",
+      "options": [
+        "(a) Collisions are resolved directly within the hash table itself by searching for the next available slot",
+        "(b) Often requires the table to be resized and rehashed when the load factor is too high",
+        "(c) Linear probing and quadratic probing are commonly used for resolving collisions in closed hashing",
+        "(d) Also known as separate chaining, is a method of handling collisions in a hash table"
+      ],
+      "answer": "(d)",
+      "explanation": "名詞容易搞混：\n\n| 名稱 | 別名 | 碰撞處理 |\n|---|---|---|\n| **Closed hashing** | Open addressing | 在表內找下一個空位（linear / quadratic probing、double hashing） |\n| **Open hashing** | Separate chaining | 每格掛一條 linked list |\n\nClosed hashing 的元素全部存在表裡，load factor 不能超過 1，太高就要 rehash，所以 (a)(b)(c) 都對。(d) 把它說成 separate chaining，**錯誤**。"
+    },
+    {
+      "no": "A-1.6",
+      "type": "mcq",
+      "points": 4,
+      "tags": [
+        "排序",
+        "Radix Sort"
+      ],
+      "question": "Suppose $n$ is the number of elements to be sorted and $k$ is the number of digits (or characters) in the largest element (or string). What is the time complexity for Radix Sort?",
+      "options": [
+        "(a) O(n log(k))",
+        "(b) O(n + k)",
+        "(c) O(n × k)",
+        "(d) O(k log(n))"
+      ],
+      "answer": "(c)",
+      "explanation": "LSD Radix Sort 對 $k$ 個位數各做一趟穩定的 counting sort，每趟 $O(n + r)$（$r$ 為基數，例如 10）。\n\n總時間 $O(k(n + r))$，$r$ 視為常數時就是 **$O(n \\times k)$**。"
+    },
+    {
+      "no": "A-1.7",
+      "type": "mcq",
+      "points": 4,
+      "tags": [
+        "稀疏矩陣",
+        "Orthogonal List"
+      ],
+      "question": "Which of the following best describes the typical use case of orthogonal lists?",
+      "options": [
+        "(a) Dense matrices with few zero elements",
+        "(b) Network representations with few nodes having directed links",
+        "(c) Small matrices where space complexity is not an issue",
+        "(d) Graph representations with many edges"
+      ],
+      "answer": "(b)",
+      "explanation": "**Orthogonal list（十字鏈結串列）**：每個非零元素（或每條邊）同時掛在「列串列」和「行串列」上，所以可以同時快速找到某節點的出邊與入邊。\n\n典型用途是**稀疏**的結構：稀疏矩陣，或連結很少的有向圖。\n\n- (a)(d) 是稠密結構，直接用陣列或鄰接矩陣比較好。\n- (c) 空間不是問題時，二維陣列更簡單。\n\n所以選 (b)。"
+    },
+    {
+      "no": "A-1.8",
+      "type": "mcq",
+      "points": 4,
+      "tags": [
+        "Priority Queue",
+        "Heap"
+      ],
+      "question": "Which of the following is NOT a common application of priority queues?",
+      "options": [
+        "(a) Ticket booking management where some users are VIPs",
+        "(b) Task scheduling in operating systems",
+        "(c) Dijkstra's shortest path algorithm",
+        "(d) Huffman coding for data compression"
+      ],
+      "answer": "(a)（官方未公布答案，本站判斷）",
+      "explanation": "> ⚠️ 成大未公布官方解答，以下為本站判斷，歡迎討論。\n\n(b)(c)(d) 是教科書列出的 priority queue 經典應用：\n- (b) OS 依優先權排程。\n- (c) Dijkstra 每次用 min-heap 取出距離最小的頂點。\n- (d) Huffman 每次用 min-heap 取出頻率最小的兩棵樹合併。\n\n(a) 雖然實務上也可以用 priority queue 實作，但不是教科書的標準應用，屬於情境描述。依刪去法選 (a)。"
+    },
+    {
+      "no": "A-1.9",
+      "type": "mcq",
+      "points": 4,
+      "tags": [
+        "排序",
+        "Heap Sort"
+      ],
+      "question": "Which of the following is true regarding heap sort?",
+      "options": [
+        "(a) Building the initial heap takes O(n log(n)) time.",
+        "(b) Heap sort's complexity improves when the input is nearly sorted.",
+        "(c) Heap sort is a divide-and-conquer algorithm",
+        "(d) Heap sort is not a stable sorting algorithm"
+      ],
+      "answer": "(d)",
+      "explanation": "- (a) 錯：bottom-up 建堆是 **$O(n)$**（$\\sum_h \\frac{n}{2^{h+1}} \\cdot O(h) = O(n)$）。\n- (b) 錯：heap sort 的最佳、平均、最差都是 $O(n\\log n)$，不像 insertion sort 遇到幾乎排好的資料會變快。\n- (c) 錯：divide-and-conquer 的是 merge sort、quick sort；heap sort 是 selection sort 的改良。\n- (d) **正確**：根和最後一個元素交換會打亂相同鍵值的原始順序，所以不穩定。"
+    },
+    {
+      "no": "A-1.10",
+      "type": "mcq",
+      "points": 4,
+      "tags": [
+        "Trie",
+        "字串搜尋"
+      ],
+      "question": "What is the time complexity for searching a string in a Trie with $n$ total strings and $m$ characters in the search string?",
+      "options": [
+        "(a) O(n log(n))",
+        "(b) O(log(n))",
+        "(c) O(m)",
+        "(d) O(n · m)"
+      ],
+      "answer": "(c)",
+      "explanation": "Trie 搜尋從根開始，每讀一個字元往下走一層，最多走 $m$ 層，每層 $O(1)$（字元集大小固定）。\n\n所以時間是 **$O(m)$**，跟 Trie 裡存了多少字串 $n$ **無關**，這正是 Trie 相對 BST（$O(m \\log n)$）的優勢。"
+    },
+    {
+      "no": "A-2",
+      "type": "essay",
+      "points": 10,
+      "tags": [
+        "NP-Complete",
+        "Reduction",
+        "Partition Problem"
+      ],
+      "question": "A-2 [10%] You have a set of jobs, each with a specific load (or weight), and you want to partition them into two subsets such that the total load in each subset is as equal as possible. Show that this problem is NP-complete by reducing from the Subset Sum Problem.",
+      "answer": "先證明此問題屬於 NP，再把 Subset Sum $(S, t)$ 多項式時間轉換成 Partition 實例 $S' = S \\cup \\{|\\sigma - 2t|\\}$（$\\sigma$ 為 $S$ 的總和）。",
+      "explanation": "**決策版本（PARTITION）**：給定正整數集合 $S'$，能否分成兩個子集合，使兩邊總和**相等**？\n\n**步驟 1：PARTITION ∈ NP**\n給一組分法當 certificate，加總兩邊並比較，花 $O(n)$ 時間即可驗證。\n\n**步驟 2：SUBSET-SUM ≤ₚ PARTITION**\n給定 Subset Sum 實例：集合 $S$、目標 $t$。令 $\\sigma = \\sum_{x\\in S} x$，新增一個元素\n$$d = |\\sigma - 2t|,\\qquad S' = S \\cup \\{d\\}$$\n轉換只需 $O(n)$ 時間。\n\n**步驟 3：證明兩者等價**（以 $\\sigma \\ge 2t$ 為例，此時 $d = \\sigma - 2t$，$S'$ 總和 $= 2\\sigma - 2t$，每邊需 $\\sigma - t$）\n\n- (⇒) 若 $A \\subseteq S$ 總和為 $t$，則 $A \\cup \\{d\\}$ 總和 $= t + \\sigma - 2t = \\sigma - t$，另一邊 $S \\setminus A$ 也是 $\\sigma - t$，分割成功。\n- (⇐) 若 $S'$ 可平分，取含 $d$ 的那一邊，扣掉 $d$ 後屬於 $S$ 的部分總和 $= (\\sigma - t) - (\\sigma - 2t) = t$，即 Subset Sum 有解。\n\n$\\sigma < 2t$ 時 $d = 2t - \\sigma$，總和 $2t$、每邊 $t$，不含 $d$ 的那一邊就是總和為 $t$ 的子集合，論證相同。\n\n**結論**：Subset Sum 是 NP-complete，且可在多項式時間歸約到 PARTITION，加上 PARTITION ∈ NP，所以 PARTITION 是 **NP-complete**。題目中「盡量平均」的最佳化版本因此是 NP-hard。"
+    },
+    {
+      "no": "B-1-1",
+      "type": "mcq",
+      "points": 4,
+      "tags": [
+        "Heap",
+        "Complete Binary Tree"
+      ],
+      "question": "B-1. Use the following graph for questions B-1-1 through B-1-3. (12%)\n\n```\n          p\n        /   \\\n       q     r\n      / \\  / | \\\n     s   t u  v  w\n    /\n   x\n```\n\nB-1-1. Which of the following must be done to ensure that this tree is a min-heap? (4%)",
+      "options": [
+        "a) Remove x",
+        "b) Remove one of u, v, or w",
+        "c) Correct the heap order property",
+        "d) None of the above"
+      ],
+      "answer": "b)",
+      "explanation": "Binary heap 要同時滿足兩個條件：\n1. **形狀**：必須是 complete **binary** tree。\n2. **順序**：每個父節點 ≤ 子節點（min-heap）。\n\n圖中 r 有 u、v、w **三個子節點**，不是二元樹，所以一定要移除其中一個。移除後第 2 層為 s、t、u、v（全滿），x 在第 3 層最左邊，形狀符合 complete tree，因此**不需要**移除 x。\n\n圖中只有節點名稱、沒有鍵值，無法判斷 heap order 是否被破壞，所以 c) 不是「一定要做」的事。"
+    },
+    {
+      "no": "B-1-2",
+      "type": "mcq",
+      "points": 4,
+      "tags": [
+        "Heap",
+        "removeMin"
+      ],
+      "question": "B-1-2. Assume that all necessary changes have been made to ensure this tree is a min-heap. After one call to removeMin(), which node will be at the root? (4%)",
+      "options": [
+        "a) p",
+        "b) q",
+        "c) x",
+        "d) r"
+      ],
+      "answer": "c) x（以「移到根的節點」理解）；若看 sift-down 完成後的結果，則是 q 或 r 中較小者",
+      "explanation": "> ⚠️ 成大未公布官方解答，本題有兩種理解方式。\n\n**removeMin 的步驟**\n1. 取出根 p（最小值）。\n2. 把**最後一個節點 x** 移到根的位置。\n3. x 和較小的子節點比較，必要時往下交換（sift-down）。\n\n- 若題目問的是步驟 2「哪個節點被放到根」→ **x**，這也是本題唯一不需要知道鍵值就能確定的答案，所以選 c)。\n- 若問 sift-down 完成後，根會是 q、r、x 三者中最小的，題目沒給鍵值，無法確定。\n\n作答時建議寫出上面的步驟，再說明採用哪種理解。"
+    },
+    {
+      "no": "B-1-3",
+      "type": "mcq",
+      "points": 4,
+      "tags": [
+        "Heap",
+        "排序",
+        "時間複雜度"
+      ],
+      "question": "B-1-3. Consider an algorithm that sorts $n$ numbers using a heap. The algorithm begins with an empty heap, sequentially inserts each number into the heap, and then repeatedly removes and outputs the smallest number from the heap until it is empty. What is the Big-O running time of this algorithm? (4%)",
+      "options": [
+        "(a) O(log²n)",
+        "(b) O(n²)",
+        "(c) O(n)",
+        "(d) O(n log n)",
+        "(e) O(n² log n)"
+      ],
+      "answer": "(d)",
+      "explanation": "- 插入 n 次，每次 sift-up 最多 $O(\\log n)$ → $O(n\\log n)$。\n- removeMin n 次，每次 sift-down $O(\\log n)$ → $O(n\\log n)$。\n\n合計 **$O(n\\log n)$**。注意這裡是一個一個插入，不是 bottom-up 建堆，但就算建堆改成 $O(n)$，取出階段仍是 $O(n\\log n)$。"
+    },
+    {
+      "no": "B-2-1",
+      "type": "essay",
+      "points": 4,
+      "tags": [
+        "Graph",
+        "Topological Sort",
+        "Cycle"
+      ],
+      "question": "B-2. Use the following graph for questions B-2-1 through B-2-4. (12%)\n\n> 有向圖的邊（依原卷圖示轉錄）：A→B (1)、A→D (8)、B→C (3)、D→C (3)、C→E (5)、E→B (8)\n\nB-2-1. If possible, provide two (2) valid topological orderings of the nodes in the graph above. If only one valid topological ordering exists, list that single ordering. If no valid topological ordering is possible, explain why. (4%)",
+      "answer": "不存在任何拓撲排序，因為圖中有環 B → C → E → B。",
+      "explanation": "拓撲排序要求每條邊 u→v 中 u 都排在 v 前面，只有 **DAG（有向無環圖）** 才存在拓撲排序。\n\n檢查：B→C (3)、C→E (5)、E→B (8) 形成環 **B → C → E → B**。B 必須在 C 前、C 必須在 E 前、E 又必須在 B 前，矛盾。\n\n用 Kahn's algorithm 驗證：入度為 0 的只有 A；移除 A 後 D 入度變 0；移除 D 後 B、C、E 的入度都還 ≥ 1，演算法卡住，證明有環。"
+    },
+    {
+      "no": "B-2-2",
+      "type": "calc",
+      "points": 4,
+      "tags": [
+        "Graph",
+        "Topological Sort",
+        "時間複雜度"
+      ],
+      "question": "B-2-2. What is the worst-case Big-O running time of performing a topological sort on a graph represented using an adjacency list? Express your answer in terms of V (the number of nodes) and E (the number of arcs). No explanation is required. (4%)",
+      "answer": "$O(V + E)$",
+      "explanation": "Kahn's algorithm 或 DFS 版本，每個頂點進出佇列（或被拜訪）一次 $O(V)$，每條邊被檢查一次 $O(E)$，合計 $O(V+E)$。若改用鄰接矩陣則為 $O(V^2)$。"
+    },
+    {
+      "no": "B-2-3",
+      "type": "mcq",
+      "points": 4,
+      "tags": [
+        "Graph",
+        "連通性"
+      ],
+      "question": "B-2-3. This graph is (Choose all that are true): (4%)",
+      "options": [
+        "a) Directed",
+        "b) Weakly connected",
+        "c) Undirected",
+        "d) Complete",
+        "e) Acyclic",
+        "f) Strongly connected"
+      ],
+      "answer": "a)、b)",
+      "explanation": "- a) ✔ 邊有方向。\n- b) ✔ 忽略方向後，A、B、C、D、E 全部連通。\n- c) ✘ 是有向圖。\n- d) ✘ 5 個頂點的完全有向圖需要 20 條邊，這裡只有 6 條。\n- e) ✘ 有環 B→C→E→B（見 B-2-1）。\n- f) ✘ A 沒有任何入邊，其他點無法走回 A，所以不是強連通。"
+    },
+    {
+      "no": "B-3-1",
+      "type": "calc",
+      "points": 4,
+      "tags": [
+        "Graph",
+        "邊數"
+      ],
+      "question": "B-3. Provide exact answers (not in Big-O notation) to questions B-3-1 through B-3-3 in terms of V (the number of nodes). Do not include E (the number of arcs) in your answers. Explanations are not required. (12%)\n\nB-3-1. The maximum number of arcs in a directed graph if self-loops are not allowed. (4%)",
+      "answer": "$V(V-1)$",
+      "explanation": "每個頂點可以連到其他 $V-1$ 個頂點，方向不同算不同邊：$V \\times (V-1)$。"
+    },
+    {
+      "no": "B-3-2",
+      "type": "calc",
+      "points": 4,
+      "tags": [
+        "Graph",
+        "邊數",
+        "Tree"
+      ],
+      "question": "B-3-2. The minimum number of arcs in a connected undirected graph without self-loops. (4%)",
+      "answer": "$V-1$",
+      "explanation": "邊數最少的連通無向圖就是一棵**樹**，樹的邊數 $= V-1$。"
+    },
+    {
+      "no": "B-3-3",
+      "type": "calc",
+      "points": 4,
+      "tags": [
+        "Graph",
+        "Degree"
+      ],
+      "question": "B-3-3. The minimum degree of a node in a complete undirected graph with self-loops. (4%)",
+      "answer": "$V+1$（self-loop 計 2 度）",
+      "explanation": "完全圖中每個頂點與其他 $V-1$ 個頂點各有一條邊，度數 $V-1$；加上 self-loop。\n\n依圖論標準定義，**self-loop 對度數貢獻 2**（握手定理 $\\sum \\deg = 2E$ 才會成立），所以度數 $= V - 1 + 2 = V+1$。所有頂點度數相同，最小度數即 $V+1$。\n\n（若採 self-loop 計 1 的慣例則為 $V$，作答時寫明定義。）"
+    },
+    {
+      "no": "B-4-1",
+      "type": "calc",
+      "points": 3,
+      "tags": [
+        "BST",
+        "時間複雜度"
+      ],
+      "question": "B-4. Provide the Big-O running time for each of the following operations. (6%)\n\nB-4-1. Inserting an element into a binary search tree. (3%)",
+      "answer": "$O(h)$：最差 $O(n)$，平衡時 $O(\\log n)$",
+      "explanation": "插入要從根往下比較直到葉子，走的層數等於樹高 h。一般 BST 遇到已排序輸入會退化成鏈，$h = n$，所以**最差 $O(n)$**；平均或平衡樹為 $O(\\log n)$。題目沒說平衡，建議回答最差情況 $O(n)$ 並補充平均情況。"
+    },
+    {
+      "no": "B-4-2",
+      "type": "calc",
+      "points": 3,
+      "tags": [
+        "BST",
+        "樹的走訪"
+      ],
+      "question": "B-4-2. Performing a pre-order traversal of all elements in a binary search tree. (3%)",
+      "answer": "$O(n)$",
+      "explanation": "走訪每個節點恰好一次，與樹的形狀無關，$\\Theta(n)$。"
+    },
+    {
+      "no": "B-5",
+      "type": "calc",
+      "points": 2,
+      "tags": [
+        "AVL Tree",
+        "樹的走訪",
+        "Complete Tree"
+      ],
+      "question": "B-5. You are given an unknown AVL tree, which is known to be a complete tree. Additionally, the post-order traversal of this tree is provided as: 11, 33, 22, 55, 77, 66, 44. Construct and draw the tree based on this information. (2%)",
+      "answer": "```\n        44\n       /  \\\n     22    66\n    / \\    / \\\n   11 33  55  77\n```",
+      "explanation": "1. 7 個節點的 complete tree 一定是 3 層全滿（$2^3-1=7$）。\n2. Post-order 最後一個是根 → **44**。\n3. 左右子樹各 3 個節點：左 `11, 33, 22` → 根 22，子節點 11、33；右 `55, 77, 66` → 根 66，子節點 55、77。\n\n驗證：中序 11, 22, 33, 44, 55, 66, 77 遞增，符合 BST；左右高度相同，符合 AVL。"
+    },
+    {
+      "no": "B-6",
+      "type": "calc",
+      "points": 6,
+      "tags": [
+        "BST",
+        "插入",
+        "刪除"
+      ],
+      "question": "B-6. Perform the following insertions and deletions sequentially on the binary search tree $T$, ensuring that each operation is completed by adding or removing a leaf while preserving the binary search tree property (swapping keys down into a leaf may be necessary). Do not use rotations to balance the tree. Draw the resulting tree after completing all operations. (6%)\n\n```\n            47\n          /    \\\n        16      84\n       /  \\    /  \\\n      3   37  64   86\n         /   /       \\\n        35  49        88\n       /\n      28\n```\n\n1. T.insert(2)\n2. T.delete(49)\n3. T.delete(35)\n4. T.insert(85)\n5. T.delete(84)",
+      "answer": "```\n            47\n          /    \\\n        16      85\n       /  \\    /  \\\n      3   37  64   86\n     /   /           \\\n    2   28            88\n```",
+      "explanation": "**假設**：刪除有兩個子節點的節點時，用**中序後繼**（右子樹最小值）換下來。\n\n1. **insert(2)**：47 → 16 → 3 → 成為 3 的左子。\n2. **delete(49)**：49 是葉子，直接移除，64 沒有子節點了。\n3. **delete(35)**：35 只有左子 28。依題意「把 key 換到葉子再刪葉子」：28 的 key 移到 35 的位置，刪除葉子 28 → 37 的左子變成 28。\n4. **insert(85)**：47 → 84 → 86 → 85 < 86，成為 86 的左子。\n5. **delete(84)**：84 有兩個子節點（64、86）。中序後繼是右子樹最小值 **85**（葉子），把 85 換到 84 的位置，再刪除原本的葉子 85。\n\n若改用**中序前驅**（左子樹最大值 64，也是葉子），根的右子會變成 64，64 的右子為 86(85, 88)，同樣合法，作答時寫明採用的慣例即可。"
+    }
+  ]
+}

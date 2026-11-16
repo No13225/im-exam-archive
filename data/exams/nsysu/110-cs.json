@@ -1,0 +1,118 @@
+{
+  "id": "nsysu-110-cs",
+  "school": "nsysu",
+  "year": 110,
+  "subject": "cs",
+  "dept": "資訊管理學系 甲、乙組",
+  "title": "計算機概論",
+  "source": {
+    "type": "official",
+    "url": "https://yamol.tw/item-5.Which+of+the+following+provides+remote-2847368.htm",
+    "note": "題目文字取自阿摩線上測驗收錄之 110 學年度中山大學碩士班招生考題（試卷 #105543），目前收錄其中 6 題選擇題。"
+  },
+  "partial": true,
+  "questions": [
+    {
+      "no": "1",
+      "type": "mcq",
+      "tags": [
+        "計算機組織",
+        "記憶體"
+      ],
+      "question": "Which of the following statements about memory is FALSE?",
+      "options": [
+        "(A) Static RAM is an example of volatile memory",
+        "(B) Flash memory is a type of nonvolatile memory that can be erased electronically and rewritten",
+        "(C) Dynamic RAM is faster than static RAM",
+        "(D) Read-only memory (ROM) is a type of nonvolatile memory"
+      ],
+      "answer": "(C)",
+      "explanation": "**觀念**：SRAM 用正反器（約 6 顆電晶體）存 1 bit，不需刷新，速度快、成本高，用於 CPU cache；DRAM 用電容存電荷，需要定期 refresh，速度較慢但密度高、便宜，用於主記憶體。\n\n- (A) 正確：SRAM 斷電資料消失，屬揮發性。\n- (B) 正確：Flash 是可電子抹除重寫的非揮發記憶體。\n- (C) **錯誤**：DRAM 比 SRAM 慢。\n- (D) 正確。"
+    },
+    {
+      "no": "5",
+      "type": "mcq",
+      "tags": [
+        "網路",
+        "資訊安全"
+      ],
+      "question": "Which of the following provides remote users with a secure connection to the organization network?",
+      "options": [
+        "(A) VPN",
+        "(B) https",
+        "(C) Ethernet",
+        "(D) FTP"
+      ],
+      "answer": "(A)",
+      "explanation": "**VPN（Virtual Private Network）** 在公共網路上建立加密通道（如 IPsec、SSL VPN），讓遠端使用者像在公司內網一樣存取資源。\n\n- HTTPS 只保護「單一網站」的連線，不是接入整個組織網路。\n- Ethernet 是區域網路的實體／資料鏈結層技術。\n- FTP 是檔案傳輸協定，且本身不加密。"
+    },
+    {
+      "no": "6",
+      "type": "mcq",
+      "tags": [
+        "人工智慧",
+        "深度學習框架"
+      ],
+      "question": "Which of the following about deep learning frameworks is FALSE?",
+      "options": [
+        "(A) PyTorch uses dynamic computation graphs",
+        "(B) TensorFlow is an open-source deep learning framework developed by Google",
+        "(C) Keras is officially integrated with PyTorch in the latest release of PyTorch",
+        "(D) TensorFlow 2.x supports dynamic computation graphs"
+      ],
+      "answer": "(C)",
+      "explanation": "- (A) 正確：PyTorch 採 define-by-run 的動態計算圖。\n- (B) 正確。\n- (C) **錯誤**：Keras 是被整合進 **TensorFlow**（`tf.keras`），不是 PyTorch 的官方元件。\n- (D) 正確：TF 2.x 預設 eager execution，即動態執行。"
+    },
+    {
+      "no": "19",
+      "type": "mcq",
+      "tags": [
+        "新興科技",
+        "物聯網"
+      ],
+      "question": "Wearable devices, such as smartwatches, can monitor blood pressure and heart rates and send alerts in case of emergency, which is an example of_______.",
+      "options": [
+        "(A) big data",
+        "(B) wireless communication",
+        "(C) cloud computing",
+        "(D) internet of things"
+      ],
+      "answer": "(D)",
+      "explanation": "**物聯網（IoT）** 的核心是「實體裝置 + 感測器 + 網路連線」，自動蒐集資料並觸發動作。智慧手錶感測生理訊號並主動發出警示，正是典型 IoT 應用。其他選項只是 IoT 會用到的技術元件之一，不是最貼切的描述。"
+    },
+    {
+      "no": "23",
+      "type": "mcq",
+      "tags": [
+        "資料結構",
+        "圖形表示法"
+      ],
+      "question": "Which of the following is NOT a common data format/structure to save and describe network data?",
+      "options": [
+        "(A) adjacency matrix",
+        "(B) hash table",
+        "(C) adjacency list",
+        "(D) edge list"
+      ],
+      "answer": "(B)",
+      "explanation": "描述網路（圖, graph）的三種標準表示法：\n\n| 表示法 | 空間 | 適合 |\n|---|---|---|\n| Adjacency matrix | $O(V^2)$ | 稠密圖、快速查詢兩點是否相連 |\n| Adjacency list | $O(V+E)$ | 稀疏圖、走訪鄰居 |\n| Edge list | $O(E)$ | Kruskal 等以邊為單位的演算法、資料交換格式 |\n\nHash table 是通用的 key-value 查找結構，不是描述圖的標準格式，故選 (B)。"
+    },
+    {
+      "no": "28",
+      "type": "mcq",
+      "tags": [
+        "程式語言",
+        "Python"
+      ],
+      "question": "In Python 3, which of the following is used to define a block of code (e.g. body of loop)?",
+      "options": [
+        "(A) Curly braces",
+        "(B) Indentation",
+        "(C) Semicolon",
+        "(D) Parenthesis"
+      ],
+      "answer": "(B)",
+      "explanation": "Python 以**縮排**界定程式區塊（PEP 8 建議 4 個空白），而 C/Java 用大括號 `{}`。\n```python\nfor i in range(3):\n    print(i)   # 縮排的這一行屬於迴圈本體\nprint('done')  # 回到外層\n```"
+    }
+  ]
+}

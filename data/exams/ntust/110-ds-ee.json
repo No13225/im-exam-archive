@@ -1,0 +1,88 @@
+{
+  "id": "ntust-110-ds-ee",
+  "school": "ntust",
+  "year": 110,
+  "subject": "ds",
+  "dept": "電子工程系（資料結構，供資管考生同科練習）",
+  "title": "資料結構",
+  "source": {
+    "type": "official",
+    "url": "https://yamol.tw/exam.php?id=112844",
+    "note": "題目文字取自阿摩線上測驗收錄之 110 學年度台科大碩士班招生考題（試卷 #112844）。台科資管系同年資料結構考卷尚未取得，先收錄同校同科考卷；第 4、5、8 題含程式碼圖片或為名詞解釋，暫未收錄。"
+  },
+  "partial": true,
+  "questions": [
+    {
+      "no": "1",
+      "type": "essay",
+      "points": 10,
+      "tags": [
+        "Stack",
+        "陣列"
+      ],
+      "question": "(10%) Explain how to implement two stacks in one array A[1..n] in such a way that neither stack overflows unless the total number of elements in both stacks together is n. The PUSH and POP operations should run in O(1) time.",
+      "answer": "Stack 1 從 A[1] 往右長，Stack 2 從 A[n] 往左長；兩個 top 相鄰（top1 + 1 == top2）時才算滿。",
+      "explanation": "**設計**：`top1 = 0`、`top2 = n + 1`。\n\n```c\nvoid push1(int x) {\n    if (top1 + 1 == top2) overflow();\n    A[++top1] = x;\n}\nvoid push2(int x) {\n    if (top1 + 1 == top2) overflow();\n    A[--top2] = x;\n}\nint pop1(void) { if (top1 == 0)     underflow(); return A[top1--]; }\nint pop2(void) { if (top2 == n + 1) underflow(); return A[top2++]; }\n```\n\n**為什麼符合題意**：兩個 stack 共享中間的空白區，只有在兩者元素總數 = n（中間沒空格）時才會 overflow；每個操作只動一個指標，皆為 $O(1)$。\n\n對比：若把陣列對半切，一邊滿了另一邊還有空間也會 overflow，不符題意。"
+    },
+    {
+      "no": "2(a)",
+      "type": "calc",
+      "points": 6,
+      "tags": [
+        "Heap",
+        "樹高"
+      ],
+      "question": "(a) (6%) What are the minimum and maximum numbers of elements in a heap of height h?",
+      "answer": "最少 $2^h$ 個、最多 $2^{h+1}-1$ 個（高度以邊數計，單一節點高度 0）",
+      "explanation": "**假設**：依 CLRS 定義，高度 = 根到最深葉子的**邊數**。\n\nHeap 是 complete binary tree，前 h 層（深度 0 ~ h−1）一定全滿，共 $2^h - 1$ 個節點。\n- **最少**：第 h 層只有 1 個節點 → $2^h - 1 + 1 = 2^h$。\n- **最多**：第 h 層全滿 → $2^h - 1 + 2^h = 2^{h+1} - 1$。\n\n（若改用「單一節點高度為 1」的定義，則為 $2^{h-1}$ 與 $2^h - 1$，作答時須寫明定義。）"
+    },
+    {
+      "no": "2(b)",
+      "type": "calc",
+      "points": 4,
+      "tags": [
+        "Heap",
+        "樹高"
+      ],
+      "question": "(b) (4%) What is the height of the heap with n elements?",
+      "answer": "$\\lfloor \\log_2 n \\rfloor$",
+      "explanation": "由 (a)：$2^h \\le n \\le 2^{h+1} - 1 < 2^{h+1}$。\n\n取對數得 $h \\le \\log_2 n < h + 1$，因此 $h = \\lfloor \\log_2 n \\rfloor$。"
+    },
+    {
+      "no": "3",
+      "type": "calc",
+      "points": 10,
+      "tags": [
+        "Binary Tree",
+        "樹的走訪"
+      ],
+      "question": "3. (10%) Draw a binary tree that contains the letters: \"b\", \"u\", \"o\", \"s\", \"n\", such that the inorder traversal spells \"bonus\" and the preorder traversal spells \"obuns\".",
+      "answer": "```\n    o\n   / \\\n  b   u\n     / \\\n    n   s\n```",
+      "explanation": "1. Preorder 第一個是根 → **o**。\n2. 在 inorder `b o n u s` 中，o 左邊 `b` 是左子樹、右邊 `n u s` 是右子樹。\n3. 左子樹只有 b。\n4. 右子樹的 preorder 為 `u n s`（preorder 去掉 o、b）→ 根是 **u**；在 inorder `n u s` 中，n 在左、s 在右。\n\n驗證：preorder = o, b, u, n, s ✔；inorder = b, o, n, u, s ✔。"
+    },
+    {
+      "no": "6",
+      "type": "code",
+      "points": 10,
+      "tags": [
+        "遞迴",
+        "Fibonacci"
+      ],
+      "question": "6. [10%] Please write a recursive function F(n) to calculate Fibonacci numbers. (note: F(0)=1, F(1)=1, F(n)=F(n-1)+F(n-2))",
+      "answer": "`F(n) = (n <= 1) ? 1 : F(n-1) + F(n-2)`",
+      "explanation": "```c\nint F(int n) {\n    if (n <= 1)          // base case: F(0)=1, F(1)=1\n        return 1;\n    return F(n - 1) + F(n - 2);\n}\n```\n\n**注意題目的定義**：F(0)=1，與常見的 F(0)=0 不同，所以 base case 是 `n <= 1` 時回傳 1。\n\n**複雜度**：遞迴樹呈指數成長，$T(n) = T(n-1) + T(n-2) + O(1) = O(\\phi^n) \\approx O(1.618^n)$。可用 memoization 或迴圈改成 $O(n)$。"
+    },
+    {
+      "no": "7",
+      "type": "calc",
+      "points": 10,
+      "tags": [
+        "雜湊",
+        "Chaining"
+      ],
+      "question": "7. [10%] Assume that a hash function (h(key) = key mod 8) is used for a chained hash table with linked lists, where linked lists can be used to handle the collision due to hash function. If we insert 10 items whose keys are 8, 9, 13, 17, 10, 15, 20, 16, 25 and 26 to an empty chained hash table with linked lists, what are the execution results of the hash table?",
+      "answer": "[0] 8→16　[1] 9→17→25　[2] 10→26　[3] 空　[4] 20　[5] 13　[6] 空　[7] 15",
+      "explanation": "**假設**：新節點接在串列**尾端**（若接在頭端，各串列順序相反，作答時須說明）。\n\n| key | key mod 8 |\n|---|---|\n| 8 | 0 |\n| 9 | 1 |\n| 13 | 5 |\n| 17 | 1 |\n| 10 | 2 |\n| 15 | 7 |\n| 20 | 4 |\n| 16 | 0 |\n| 25 | 1 |\n| 26 | 2 |\n\n```\n[0] → 8 → 16\n[1] → 9 → 17 → 25\n[2] → 10 → 26\n[3] → NULL\n[4] → 20\n[5] → 13\n[6] → NULL\n[7] → 15\n```\nLoad factor $\\alpha = 10/8 = 1.25$，成功搜尋的平均比較次數約 $1 + \\alpha/2$。"
+    }
+  ]
+}
